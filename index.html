@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Music Player</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Music Player</h1>
+            <input type="text" id="search" placeholder="Search for songs...">
+        </header>
+        
+        <main>
+            <section class="playlist">
+                <h2>Playlist</h2>
+                <ul id="playlist-items"></ul>
+            </section>
+            
+            <section class="player">
+                <div class="album-art">
+                    <img src="assets/images/default-album-art.jpg" alt="Album Art" id="album-art">
+                </div>
+                <div class="song-info">
+                    <h3 id="song-title">Song Title</h3>
+                    <p id="artist">Artist</p>
+                </div>
+                <div class="controls">
+                    <button id="prev"><i class="fas fa-step-backward"></i></button>
+                    <button id="play-pause"><i class="fas fa-play"></i></button>
+                    <button id="next"><i class="fas fa-step-forward"></i></button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress"></div>
+                    </div>
+                    <div class="time">
+                        <span id="current-time">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" id="volume" min="0" max="100" value="100">
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
