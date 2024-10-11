@@ -6,6 +6,8 @@ class MusicPlayer {
         this.playlist = [];
         this.currentSongIndex = 0;
         this.isPlaying = false;
+        this.currentPage = 1;
+        this.songsPerPage = 4;
         this.initializeEventListeners();
         setTimeout(() => {
             if (this.playlist.length > 0) {
@@ -22,6 +24,8 @@ class MusicPlayer {
         const nextBtn = document.getElementById('next');
         const volumeSlider = document.getElementById('volume');
         const progressBar = document.querySelector('.progress-bar');
+        const prevPageBtn = document.getElementById('prev-page');
+        const nextPageBtn = document.getElementById('next-page');
         volumeSlider.value = '50';
         volumeSlider.addEventListener('input', (e) => this.setVolume(Number(e.target.value)));
         playPauseBtn.addEventListener('click', () => this.togglePlayPause());
@@ -30,6 +34,8 @@ class MusicPlayer {
         progressBar.addEventListener('click', (e) => this.seek(e));
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => this.playNext());
+        prevPageBtn.addEventListener('click', () => this.changePage(-1));
+        nextPageBtn.addEventListener('click', () => this.changePage(1));
     }
     addSong(song) {
         this.playlist.push(song);
@@ -38,12 +44,26 @@ class MusicPlayer {
     updatePlaylistUI() {
         const playlistElement = document.getElementById('playlist-items');
         playlistElement.innerHTML = '';
-        this.playlist.forEach((song, index) => {
+        const startIndex = (this.currentPage - 1) * this.songsPerPage;
+        const endIndex = startIndex + this.songsPerPage;
+        const displayedSongs = this.playlist.slice(startIndex, endIndex);
+        displayedSongs.forEach((song, index) => {
             const li = document.createElement('li');
             li.textContent = `${song.title} - ${song.artist}`;
-            li.addEventListener('click', () => this.playSong(index));
+            li.addEventListener('click', () => this.playSong(startIndex + index));
             playlistElement.appendChild(li);
         });
+        this.updatePaginationButtons();
+    }
+    updatePaginationButtons() {
+        const prevPageBtn = document.getElementById('prev-page');
+        const nextPageBtn = document.getElementById('next-page');
+        prevPageBtn.disabled = this.currentPage === 1;
+        nextPageBtn.disabled = this.currentPage * this.songsPerPage >= this.playlist.length;
+    }
+    changePage(direction) {
+        this.currentPage += direction;
+        this.updatePlaylistUI();
     }
     playSong(index) {
         if (index >= 0 && index < this.playlist.length) {
@@ -113,6 +133,8 @@ class MusicPlayer {
     searchSongs(query) {
         const searchResults = this.playlist.filter(song => song.title.toLowerCase().includes(query.toLowerCase()) ||
             song.artist.toLowerCase().includes(query.toLowerCase()));
+        this.playlist = searchResults;
+        this.currentPage = 1;
         this.updatePlaylistUI();
     }
 }
@@ -137,6 +159,37 @@ player.addSong({
     src: "assets/audio/song3.mp3",
     cover: "assets/images/cover3.jpg"
 });
+player.addSong({
+    title: "for lovers who hesitate",
+    artist: "JANNABI",
+    src: "assets/audio/song4.mp3",
+    cover: "assets/images/cover4.jpeg"
+});
+player.addSong({
+    title: "Letting Go",
+    artist: "DAY6",
+    src: "assets/audio/song5.mp3",
+    cover: "assets/images/cover5.jpg"
+});
+player.addSong({
+    title: "annie.",
+    artist: "wave to earth",
+    src: "assets/audio/song6.mp3",
+    cover: "assets/images/cover6.jpeg"
+});
+player.addSong({
+    title: "Tampar",
+    artist: "Juicy Luicy",
+    src: "assets/audio/song7.mp3",
+    cover: "assets/images/cover7.jpeg"
+});
+player.addSong({
+    title: "'Cause You Have To",
+    artist: "LANY",
+    src: "assets/audio/song8.mp3",
+    cover: "assets/images/cover8.jpeg"
+});
+// Add more songs as needed...
 // Add event listener for search input
 const searchInput = document.getElementById('search');
 searchInput.addEventListener('input', (e) => player.searchSongs(e.target.value));

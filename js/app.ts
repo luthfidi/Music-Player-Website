@@ -10,6 +10,8 @@ class MusicPlayer {
     private playlist: Song[];
     private currentSongIndex: number;
     private isPlaying: boolean;
+    private currentPage: number;
+    private songsPerPage: number;
 
     constructor() {
         this.audio = new Audio();
@@ -17,9 +19,10 @@ class MusicPlayer {
         this.playlist = [];
         this.currentSongIndex = 0;
         this.isPlaying = false;
+        this.currentPage = 1;
+        this.songsPerPage = 4;
         this.initializeEventListeners();
     
-        
         setTimeout(() => {
             if (this.playlist.length > 0) {
                 this.currentSongIndex = 0;
@@ -36,6 +39,8 @@ class MusicPlayer {
         const nextBtn = document.getElementById('next') as HTMLButtonElement;
         const volumeSlider = document.getElementById('volume') as HTMLInputElement;
         const progressBar = document.querySelector('.progress-bar') as HTMLDivElement;
+        const prevPageBtn = document.getElementById('prev-page') as HTMLButtonElement;
+        const nextPageBtn = document.getElementById('next-page') as HTMLButtonElement;
 
         volumeSlider.value = '50';
         volumeSlider.addEventListener('input', (e) => this.setVolume(Number((e.target as HTMLInputElement).value)));
@@ -47,6 +52,9 @@ class MusicPlayer {
     
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => this.playNext());
+        
+        prevPageBtn.addEventListener('click', () => this.changePage(-1));
+        nextPageBtn.addEventListener('click', () => this.changePage(1));
     }    
 
     public addSong(song: Song): void {
@@ -57,12 +65,32 @@ class MusicPlayer {
     private updatePlaylistUI(): void {
         const playlistElement = document.getElementById('playlist-items') as HTMLUListElement;
         playlistElement.innerHTML = '';
-        this.playlist.forEach((song, index) => {
+        
+        const startIndex = (this.currentPage - 1) * this.songsPerPage;
+        const endIndex = startIndex + this.songsPerPage;
+        const displayedSongs = this.playlist.slice(startIndex, endIndex);
+        
+        displayedSongs.forEach((song, index) => {
             const li = document.createElement('li');
             li.textContent = `${song.title} - ${song.artist}`;
-            li.addEventListener('click', () => this.playSong(index));
+            li.addEventListener('click', () => this.playSong(startIndex + index));
             playlistElement.appendChild(li);
         });
+        
+        this.updatePaginationButtons();
+    }
+
+    private updatePaginationButtons(): void {
+        const prevPageBtn = document.getElementById('prev-page') as HTMLButtonElement;
+        const nextPageBtn = document.getElementById('next-page') as HTMLButtonElement;
+        
+        prevPageBtn.disabled = this.currentPage === 1;
+        nextPageBtn.disabled = this.currentPage * this.songsPerPage >= this.playlist.length;
+    }
+
+    private changePage(direction: number): void {
+        this.currentPage += direction;
+        this.updatePlaylistUI();
     }
 
     private playSong(index: number): void {
@@ -146,6 +174,8 @@ class MusicPlayer {
             song.title.toLowerCase().includes(query.toLowerCase()) ||
             song.artist.toLowerCase().includes(query.toLowerCase())
         );
+        this.playlist = searchResults;
+        this.currentPage = 1;
         this.updatePlaylistUI();
     }
 }
@@ -174,6 +204,43 @@ player.addSong({
     src: "assets/audio/song3.mp3",
     cover: "assets/images/cover3.jpg"
 });
+
+player.addSong({
+    title: "for lovers who hesitate",
+    artist: "JANNABI",
+    src: "assets/audio/song4.mp3",
+    cover: "assets/images/cover4.jpeg"
+});
+
+player.addSong({
+    title: "Letting Go",
+    artist: "DAY6",
+    src: "assets/audio/song5.mp3",
+    cover: "assets/images/cover5.jpg"
+});
+
+player.addSong({
+    title: "annie.",
+    artist: "wave to earth",
+    src: "assets/audio/song6.mp3",
+    cover: "assets/images/cover6.jpeg"
+});
+
+player.addSong({
+    title: "Tampar",
+    artist: "Juicy Luicy",
+    src: "assets/audio/song7.mp3",
+    cover: "assets/images/cover7.jpeg"
+});
+
+player.addSong({
+    title: "'Cause You Have To",
+    artist: "LANY",
+    src: "assets/audio/song8.mp3",
+    cover: "assets/images/cover8.jpeg"
+});
+
+// Add more songs as needed...
 
 // Add event listener for search input
 const searchInput = document.getElementById('search') as HTMLInputElement;

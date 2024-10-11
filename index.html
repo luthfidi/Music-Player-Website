@@ -16,15 +16,19 @@
 <body>
     <div class="container">
         <header>
-            <h1>My Music Player</h1>
+            <h1>Simple Music Player</h1>
             <input type="text" id="search" placeholder="Search for songs...">
         </header>
         
         <main>
-            <section class="playlist">
+            <div class="playlist">
                 <h2>Playlist</h2>
                 <ul id="playlist-items"></ul>
-            </section>
+                <div class="playlist-controls">
+                  <button id="prev-page">&lt; Prev</button>
+                  <button id="next-page">Next &gt;</button>
+                </div>
+              </div>
             
             <section class="player">
                 <div class="album-art">
