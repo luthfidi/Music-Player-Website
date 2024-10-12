@@ -16,11 +16,12 @@
 
 body {
   font-family: "Roboto", sans-serif;
-  background: linear-gradient(
-    45deg,
-    var(--background-color),
-    var(--secondary-color)
-  );
+  background-image: url("../assets/images/music.webp"),
+    linear-gradient(45deg, var(--background-color), var(--secondary-color));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: var(--text-color);
   min-height: 100vh;
   display: flex;
@@ -32,11 +33,11 @@ body {
 .container {
   width: 100%;
   max-width: 1000px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1); 
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -251,6 +252,8 @@ main {
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
   }
 
   main {
@@ -271,6 +274,12 @@ main {
 
 @media (max-width: 480px) {
   body {
+    background-image: url("../assets/images/music.webp"),
+      linear-gradient(45deg, var(--background-color), var(--secondary-color));
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     padding: 5px;
   }
 
