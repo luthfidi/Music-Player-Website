@@ -4,6 +4,7 @@ class MusicPlayer {
         this.audio = new Audio();
         this.audio.volume = 0.5;
         this.playlist = [];
+        this.filteredPlaylist = [];
         this.currentSongIndex = 0;
         this.isPlaying = false;
         this.currentPage = 1;
@@ -39,6 +40,7 @@ class MusicPlayer {
     }
     addSong(song) {
         this.playlist.push(song);
+        this.filteredPlaylist = [...this.playlist]; // Update filtered playlist
         this.updatePlaylistUI();
     }
     updatePlaylistUI() {
@@ -46,11 +48,11 @@ class MusicPlayer {
         playlistElement.innerHTML = '';
         const startIndex = (this.currentPage - 1) * this.songsPerPage;
         const endIndex = startIndex + this.songsPerPage;
-        const displayedSongs = this.playlist.slice(startIndex, endIndex);
+        const displayedSongs = this.filteredPlaylist.slice(startIndex, endIndex);
         displayedSongs.forEach((song, index) => {
             const li = document.createElement('li');
             li.textContent = `${song.title} - ${song.artist}`;
-            li.addEventListener('click', () => this.playSong(startIndex + index));
+            li.addEventListener('click', () => this.playSong(this.playlist.indexOf(song))); // Play from main playlist
             playlistElement.appendChild(li);
         });
         this.updatePaginationButtons();
@@ -59,7 +61,7 @@ class MusicPlayer {
         const prevPageBtn = document.getElementById('prev-page');
         const nextPageBtn = document.getElementById('next-page');
         prevPageBtn.disabled = this.currentPage === 1;
-        nextPageBtn.disabled = this.currentPage * this.songsPerPage >= this.playlist.length;
+        nextPageBtn.disabled = this.currentPage * this.songsPerPage >= this.filteredPlaylist.length;
     }
     changePage(direction) {
         this.currentPage += direction;
@@ -131,9 +133,13 @@ class MusicPlayer {
         albumArtElement.src = currentSong.cover;
     }
     searchSongs(query) {
-        const searchResults = this.playlist.filter(song => song.title.toLowerCase().includes(query.toLowerCase()) ||
-            song.artist.toLowerCase().includes(query.toLowerCase()));
-        this.playlist = searchResults;
+        if (query.trim() === '') {
+            this.filteredPlaylist = [...this.playlist]; // Reset to full playlist if query is empty
+        }
+        else {
+            this.filteredPlaylist = this.playlist.filter(song => song.title.toLowerCase().includes(query.toLowerCase()) ||
+                song.artist.toLowerCase().includes(query.toLowerCase()));
+        }
         this.currentPage = 1;
         this.updatePlaylistUI();
     }

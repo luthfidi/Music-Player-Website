@@ -8,6 +8,7 @@ interface Song {
 class MusicPlayer {
     private audio: HTMLAudioElement;
     private playlist: Song[];
+    private filteredPlaylist: Song[];
     private currentSongIndex: number;
     private isPlaying: boolean;
     private currentPage: number;
@@ -17,6 +18,7 @@ class MusicPlayer {
         this.audio = new Audio();
         this.audio.volume = 0.5;
         this.playlist = [];
+        this.filteredPlaylist = [];
         this.currentSongIndex = 0;
         this.isPlaying = false;
         this.currentPage = 1;
@@ -59,6 +61,7 @@ class MusicPlayer {
 
     public addSong(song: Song): void {
         this.playlist.push(song);
+        this.filteredPlaylist = [...this.playlist];  // Update filtered playlist
         this.updatePlaylistUI();
     }
 
@@ -68,12 +71,12 @@ class MusicPlayer {
         
         const startIndex = (this.currentPage - 1) * this.songsPerPage;
         const endIndex = startIndex + this.songsPerPage;
-        const displayedSongs = this.playlist.slice(startIndex, endIndex);
+        const displayedSongs = this.filteredPlaylist.slice(startIndex, endIndex);
         
         displayedSongs.forEach((song, index) => {
             const li = document.createElement('li');
             li.textContent = `${song.title} - ${song.artist}`;
-            li.addEventListener('click', () => this.playSong(startIndex + index));
+            li.addEventListener('click', () => this.playSong(this.playlist.indexOf(song)));  // Play from main playlist
             playlistElement.appendChild(li);
         });
         
@@ -85,7 +88,7 @@ class MusicPlayer {
         const nextPageBtn = document.getElementById('next-page') as HTMLButtonElement;
         
         prevPageBtn.disabled = this.currentPage === 1;
-        nextPageBtn.disabled = this.currentPage * this.songsPerPage >= this.playlist.length;
+        nextPageBtn.disabled = this.currentPage * this.songsPerPage >= this.filteredPlaylist.length;
     }
 
     private changePage(direction: number): void {
@@ -170,11 +173,14 @@ class MusicPlayer {
     }
 
     public searchSongs(query: string): void {
-        const searchResults = this.playlist.filter(song =>
-            song.title.toLowerCase().includes(query.toLowerCase()) ||
-            song.artist.toLowerCase().includes(query.toLowerCase())
-        );
-        this.playlist = searchResults;
+        if (query.trim() === '') {
+            this.filteredPlaylist = [...this.playlist];  // Reset to full playlist if query is empty
+        } else {
+            this.filteredPlaylist = this.playlist.filter(song =>
+                song.title.toLowerCase().includes(query.toLowerCase()) ||
+                song.artist.toLowerCase().includes(query.toLowerCase())
+            );
+        }
         this.currentPage = 1;
         this.updatePlaylistUI();
     }
