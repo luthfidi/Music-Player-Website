@@ -6,6 +6,8 @@
     <title>Simple Music Player</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
 
     <link rel="icon" type="image/png" href="./assets/favicon/favicon-48x48.png" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="./assets/favicon/favicon.svg" />
@@ -14,9 +16,9 @@
     <link rel="manifest" href="./assets/favicon/site.webmanifest" />
 </head>
 <body>
+    <div id="bg"></div>
     <div class="container">
         <header>
-
             <input type="text" id="search" placeholder="Search for songs...">
         </header>
         
@@ -28,7 +30,7 @@
                   <button id="prev-page">&lt; Prev</button>
                   <button id="next-page">Next &gt;</button>
                 </div>
-              </div>
+            </div>
             
             <section class="player">
                 <div class="album-art">
@@ -61,5 +63,21 @@
     </div>
 
     <script src="js/app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', ()=> {
+            VANTA.HALO({
+                el: "#bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                baseColor: 0x121212,
+                backgroundColor: 0x191414,
+                amplitudeFactor: 2.00,
+                size: 1.50
+            })
+        })
+    </script>
 </body>
 </html>
