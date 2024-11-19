@@ -6,8 +6,8 @@
     <title>Simple Music Player</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js"></script>
 
     <link rel="icon" type="image/png" href="./assets/favicon/favicon-48x48.png" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="./assets/favicon/favicon.svg" />
@@ -65,17 +65,19 @@
     <script src="js/app.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', ()=> {
-            VANTA.HALO({
+            VANTA.TRUNK({
                 el: "#bg",
                 mouseControls: true,
                 touchControls: true,
                 gyroControls: false,
                 minHeight: 200.00,
                 minWidth: 200.00,
-                baseColor: 0x121212,
-                backgroundColor: 0x191414,
-                amplitudeFactor: 2.00,
-                size: 1.50
+                scale: 1.00,
+                scaleMobile: 1.00,
+                spacing: 1.5,
+                chaos:1.0,
+                color: 0x2F7A3D,
+                backgroundColor: 0x000000,
             })
         })
     </script>
