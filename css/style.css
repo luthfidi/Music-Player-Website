@@ -32,13 +32,15 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 800px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  margin-right: 3rem;
+  margin-left: 3rem;
 }
 
 header {
@@ -246,8 +248,8 @@ main {
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
   }
 
   main {
@@ -279,6 +281,8 @@ main {
 
   .container {
     border-radius: 10px;
+    margin-right: 1rem;
+    margin-left: 1rem;
   }
 
   h1 {
