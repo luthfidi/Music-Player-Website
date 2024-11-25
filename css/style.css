@@ -26,13 +26,13 @@ body {
 }
 
 #bg {
-  z-index: -1; /* Ubah dari 0 ke -1 agar tidak menutupi konten */
+  z-index: -1;
   top: 0;
   left: 0;
   position: absolute;
   width: 100%;
   height: 100%;
-  background: var(--background-color); /* Tambahkan background color default */
+  background: var(--background-color);
 }
 
 .container {
