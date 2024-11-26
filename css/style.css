@@ -80,7 +80,7 @@ main {
   max-height: 300px;
   display: flex;
   flex-direction: column;
-  margin-bottom:1rem
+  margin-bottom: 1rem;
 }
 
 .playlist h2 {
