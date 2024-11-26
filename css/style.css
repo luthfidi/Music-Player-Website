@@ -80,6 +80,7 @@ main {
   max-height: 300px;
   display: flex;
   flex-direction: column;
+  margin-bottom:1rem
 }
 
 .playlist h2 {
@@ -111,10 +112,40 @@ main {
   background: var(--hover-color);
 }
 
+#playlist-items li.active {
+  background-color: var(--primary-color);
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+#playlist-items li.active:hover {
+  background-color: var(--primary-color);
+  opacity: 0.9;
+}
+
+@keyframes pulse {
+  0% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0.8;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+@media (min-width: 769px) {
+  .playlist {
+      max-height: 400px; /* Menyesuaikan tinggi untuk 5 item */
+  }
+}
+
 .playlist-controls {
   display: flex;
   justify-content: space-between;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .playlist-controls button {
@@ -130,6 +161,15 @@ main {
 
 .playlist-controls button:hover {
   background-color: var(--hover-color);
+}
+
+.playlist-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.playlist-controls button:disabled:hover {
+  background-color: transparent;
 }
 
 .player {
